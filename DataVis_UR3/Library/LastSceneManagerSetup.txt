@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Scenes/Trajectory.unity
+- path: Assets/Scenes/Magic Hand.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0

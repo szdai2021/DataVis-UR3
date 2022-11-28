@@ -169,7 +169,7 @@ public class UnityClient : MonoBehaviour
         }
     }
 
-    private void initialPos()
+    public void initialPos()
     {
         customMove(-1.8765, -1.22337, 2.4, -1.19516, 2.06182, -7.85783, movementType: 3);
     }
