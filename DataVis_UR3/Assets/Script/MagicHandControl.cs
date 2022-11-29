@@ -47,7 +47,7 @@ public class MagicHandControl : MonoBehaviour
         prev_gestureDetection = current_gestureDetection;
     }
 
-    public (Vector3, Quaternion) getTransformationMatrix(Transform T_from, Transform T_to, Transform target)
+    public static (Vector3, Quaternion) getNewPosRot(Transform T_from, Transform T_to, Transform target)
     {
         Vector3 posInDestination = Vector3.zero;
         Quaternion angleInDestination = Quaternion.identity;

@@ -6,7 +6,7 @@ public class PortalTextureSetup : MonoBehaviour
 {
     public Camera portalCamera;
 
-    public Material cameraMaterial;
+    public RenderTexture cameraTexture;
 
     public bool resetCamera = false;
 
@@ -20,8 +20,9 @@ public class PortalTextureSetup : MonoBehaviour
             {
                 portalCamera.targetTexture.Release();
             }
-            portalCamera.targetTexture = new RenderTexture(Screen.width, Screen.height, 24);
-            cameraMaterial.mainTexture = portalCamera.targetTexture;
+
+            cameraTexture.width = Screen.width;
+            cameraTexture.height = Screen.height;
 
             resetCamera = false;
         }
