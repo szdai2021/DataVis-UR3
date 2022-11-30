@@ -29,7 +29,8 @@ public class MagicHandControl : MonoBehaviour
 
         if (current_gestureDetection == false & prev_gestureDetection == true)
         {
-            sphereTwin.transform.position = sphere.transform.position - VRHandTwin.transform.position + VRHand.transform.position;
+            (sphereTwin.transform.position, sphereTwin.transform.rotation) = getTargetPosRot(VRHandTwin.transform, VRHand.transform, sphere.transform);
+            //sphereTwin.transform.position = sphere.transform.position - VRHandTwin.transform.position + VRHand.transform.position;
         }
 
         if (robotRange.bounds.Contains(sphereTwin.transform.position) & Vector3.Distance(prev_sphereTwin, sphereTwin.transform.position)>0.0001)
@@ -47,21 +48,20 @@ public class MagicHandControl : MonoBehaviour
         prev_gestureDetection = current_gestureDetection;
     }
 
-    public static (Vector3, Quaternion) getNewPosRot(Transform T_from, Transform T_to, Transform target)
+    public static (Vector3 targetPos,Quaternion targetRot) getTargetPosRot(Transform T_from, Transform T_to, Transform source)
     {
-        Vector3 posInDestination = Vector3.zero;
-        Quaternion angleInDestination = Quaternion.identity;
+        Vector3 targetPos;
+        Quaternion targetRot;
 
-        Vector3 offset = T_from.position - T_to.position;
-        posInDestination = target.position + offset;
+        Matrix4x4 transformation = Matrix4x4.identity;
 
-        float angularDifference = Quaternion.Angle(T_from.rotation, T_to.rotation);
+        transformation = T_from.worldToLocalMatrix * T_to.localToWorldMatrix;
 
-        Quaternion rotationalDifference = Quaternion.AngleAxis(angularDifference, Vector3.up);
-        Vector3 newDirection = rotationalDifference * target.forward;
-        angleInDestination = Quaternion.LookRotation(newDirection, Vector3.up);
+        targetPos = T_to.TransformPoint(T_from.InverseTransformPoint(source.position));
 
-        return (posInDestination,angleInDestination);
+        targetRot = source.rotation * transformation.rotation;
+
+        return (targetPos, targetRot);
     }
 
 }
